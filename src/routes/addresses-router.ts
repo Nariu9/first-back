@@ -1,18 +1,18 @@
 import {Request, Response, Router} from 'express';
+import {addressesRepository} from '../repositories/addresses-repository';
 
-const addresses = [{id: 1, value: 'Street 1'}, {id: 2, value: 'Street 2'}]
+//Presentation Layer
 
 export const addressesRouter = Router({})
 
 addressesRouter.get('/', (req: Request, res: Response) => {
-    res.send(addresses)
+    res.send(addressesRepository.getAddresses())
 })
 addressesRouter.get('/:id', (req: Request, res: Response) => {
-    const address = addresses.find(a => a.id === +req.params.id)
+    const address = addressesRepository.findAddressById(+req.params.id)
     if (address) {
         res.send(address)
     } else {
         res.send(404)
     }
-
 })
