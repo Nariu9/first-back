@@ -1,16 +1,21 @@
 // Data Access Layer
 
-const products = [{id: 1, title: 'tomato'}, {id: 2, title: 'orange'}]
+export type ProductType = {
+    id: number
+    title: string
+}
+
+const products: ProductType[] = [{id: 1, title: 'tomato'}, {id: 2, title: 'orange'}]
 
 export const productsRepository = {
-    findProducts(searchTerm: string | undefined) {
+    async findProducts(searchTerm: string | undefined): Promise<ProductType[]> {
         if (searchTerm) {
             return products.filter(p => p.title.includes(searchTerm))
         } else {
             return products
         }
     },
-    createProduct(productTitle: string) {
+    async createProduct(productTitle: string): Promise<ProductType> {
         const newProduct = {
             id: Date.now(),
             title: productTitle
@@ -18,10 +23,10 @@ export const productsRepository = {
         products.push(newProduct)
         return newProduct
     },
-    findProductById(productId: number) {
+    async findProductById(productId: number) :Promise<ProductType | undefined> {
         return products.find(p => p.id === productId)
     },
-    updateProduct(productId: number, productTitle: string) {
+    async updateProduct(productId: number, productTitle: string): Promise<boolean> {
         const product = products.find(p => p.id === productId)
         if (product) {
             product.title = productTitle
@@ -30,7 +35,7 @@ export const productsRepository = {
             return false
         }
     },
-    deleteProduct(productId: number) {
+    async deleteProduct(productId: number): Promise<boolean> {
         for (let i = 0; i < products.length; i++) {
             if (products[i].id === productId) {
                 products.splice(i, 1)
