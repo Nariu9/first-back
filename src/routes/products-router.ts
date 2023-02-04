@@ -1,7 +1,8 @@
 import {Request, Response, Router} from 'express';
-import {productsRepository, ProductType} from '../repositories/products-repository';
+import {productsRepository} from '../repositories/products-db-repository';
 import {body} from 'express-validator';
 import {inputValidationMiddleware} from '../middlewares/input-validation-middleware';
+import {ProductType} from '../repositories/db';
 
 
 //Presentation Layer
